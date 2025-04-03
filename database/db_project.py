@@ -26,8 +26,8 @@ def project_serializer(project: dict) -> dict:
         "image": project.get("image", ""),
         "document": project.get("document", ""),
         "reference": project.get("reference", ""),
-        "start": project.get("start", "").isoformat() if project.get("start") else "",
-        "deadline": project.get("deadline", "").isoformat() if project.get("deadline") else "",
+        "start": project.get("start", "") if project.get("start") else "",
+        "deadline": project.get("deadline", "") if project.get("deadline") else "",
     }
 
 
