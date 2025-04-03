@@ -6,12 +6,14 @@ from fastapi import HTTPException
 
 from auth_utils import AuthJwtCsrf
 from .db_task import task_serializer
-
+import asyncio
 
 MONGO_API_KEY = config("MONGO_API_KEY")
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
+client.get_io_loop = asyncio.get_event_loop
+
 database = client.API_DB
 collection_project = database.project
 collection_task = database.task
