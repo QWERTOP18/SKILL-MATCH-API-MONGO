@@ -17,7 +17,7 @@ collection_user = database.user
 auth = AuthJwtCsrf()
 
 
-def user_serializer(user) ->dict:
+def auth_serializer(user) ->dict:
     return {
         "id": str(user["_id"]),
         "email": user["email"]
@@ -34,7 +34,7 @@ async def db_signup(data: dict) -> dict:
 
     user = await collection_user.insert_one({"email":email, "password": auth.generate_hashed_pw(password)})
     new_user = await collection_user.find_one({"_id": user.inserted_id})
-    return user_serializer(new_user)
+    return auth_serializer(new_user)
 
 
 async def db_login(data: dict) ->str:
