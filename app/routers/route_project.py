@@ -34,7 +34,7 @@ async def get_single_project(id:str):
     if res:
         return res
     raise HTTPException(
-        status_code=404, detail = f"project with id {id} not found"
+        status_code=404, detail = f"project not found"
     )
 
 @router.put("/api/project/{id}", response_model=Project)
@@ -43,7 +43,7 @@ async def update_project(id:str, data:ProjectBody):
     if res:
         return res
     raise HTTPException(
-        status_code=404, detail = f"project with id {id} not found"
+        status_code=404, detail = f"project not found"
     )
 
 
@@ -53,7 +53,7 @@ async def delete_project(id:str):
     if res:
         return {"message": "project deleted successfully"}
     raise HTTPException(
-        status_code=404, detail = f"project with id {id} not found"
+        status_code=404, detail = f"project not found"
     )
 
 

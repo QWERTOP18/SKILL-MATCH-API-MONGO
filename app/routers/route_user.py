@@ -20,7 +20,7 @@ async def get_single_user(id:str):
     if res:
         return res
     raise HTTPException(
-        status_code=404, detail = f"user with id {id} not found"
+        status_code=404, detail = f"user not found"
     )
 
 @router.put("/api/user/{id}", response_model=User)
@@ -29,6 +29,6 @@ async def update_user(id:str, data:UserBody):
     if res:
         return res
     raise HTTPException(
-        status_code=404, detail = f"user with id {id} not found"
+        status_code=404, detail = f"user not found"
     )
 
