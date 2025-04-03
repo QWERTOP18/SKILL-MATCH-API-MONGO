@@ -25,3 +25,4 @@ db.sqlite3
 
 # Git関連
 .DS_Store
+.pytest_cache
