@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Request, Response,HTTPException
-from schemas.schema_project import Project, ProjectBody
-from schemas.schema_util import SuccessMessage
-from database.db_project import db_create_project, db_get_projects, db_get_single_project, db_update_project, db_delete_project, db_get_tasks_by_project, db_get_tasks_by_user
+from app.schemas.schema_project import Project, ProjectBody
+from app.schemas.schema_util import SuccessMessage
+from app.database.db_project import db_create_project, db_get_projects, db_get_single_project, db_update_project, db_delete_project, db_get_tasks_by_project, db_get_tasks_by_user
 from fastapi.encoders import jsonable_encoder
 from starlette.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST
 

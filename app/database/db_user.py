@@ -5,7 +5,7 @@ from bson import ObjectId
 from fastapi import HTTPException 
 import asyncio
 
-from auth_utils import AuthJwtCsrf
+from app.auth_utils import AuthJwtCsrf
 from .db_task import task_serializer
 
 

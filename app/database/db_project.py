@@ -4,7 +4,7 @@ from typing import Optional, Union
 from bson import ObjectId
 from fastapi import HTTPException 
 
-from auth_utils import AuthJwtCsrf
+from app.auth_utils import AuthJwtCsrf
 from .db_task import task_serializer
 import asyncio
 

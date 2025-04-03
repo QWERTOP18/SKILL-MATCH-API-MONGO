@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Request, Response,HTTPException
-from schemas.schema_task import Task, TaskBody
-from schemas.schema_util import SuccessMessage
-from database.db_task import db_create_task, db_get_tasks, db_get_single_task, db_update_task, db_delete_task
+from app.schemas.schema_task import Task, TaskBody
+from app.schemas.schema_util import SuccessMessage
+from app.database.db_task import db_create_task, db_get_tasks, db_get_single_task, db_update_task, db_delete_task
 from fastapi.encoders import jsonable_encoder
 from starlette.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST
 

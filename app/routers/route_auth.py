@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException,Response, Request
 
-from schemas.schema_user import UserBase, UserInfo
-from schemas.schema_util import SuccessMessage
-from auth_utils import AuthJwtCsrf
+from app.schemas.schema_user import UserBase, UserInfo
+from app.schemas.schema_util import SuccessMessage
+from app.auth_utils import AuthJwtCsrf
 
-from database.db_auth import db_login,db_signup
+from app.database.db_auth import db_login,db_signup
 from fastapi.encoders import jsonable_encoder
 
 
