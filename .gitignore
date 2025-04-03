@@ -1,5 +1,5 @@
 # Python関連
-__pycache__/
+__pycache__
 *.pyc
 *.pyo
 *.pyd
@@ -25,3 +25,4 @@ db.sqlite3
 
 # Git関連
 .DS_Store
+.pytest_cache
