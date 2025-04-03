@@ -1,5 +1,6 @@
 from fastapi import APIRouter,Request, Response,HTTPException
-from schemas import project, projectBody,SuccessMessage
+from schemas.schema_project import Project, ProjectBody
+from schemas.schema_util import SuccessMessage
 from database.db_project import db_create_project, db_get_projects, db_get_single_project, db_update_project, db_delete_project
 from fastapi.encoders import jsonable_encoder
 from starlette.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST
@@ -11,8 +12,8 @@ router = APIRouter()
 
 
 
-@router.post("/api/project", response_model=project)
-async def create_project(request: Request, response: Response, data:projectBody):
+@router.post("/api/project", response_model=Project)
+async def create_project(request: Request, response: Response, data:ProjectBody):
     project = jsonable_encoder(data)
     res = await db_create_project(project)
     response.status_code = HTTP_201_CREATED
@@ -22,12 +23,12 @@ async def create_project(request: Request, response: Response, data:projectBody)
         status_code=404, detail = "Create project failed"
     )
 
-@router.get("/api/project", response_model=List[project])
+@router.get("/api/project", response_model=List[Project])
 async def get_projects():
     res = await db_get_projects()
     return res
 
-@router.get("/api/project/{id}", response_model=project)
+@router.get("/api/project/{id}", response_model=Project)
 async def get_single_project(id:str):
     res = await db_get_single_project(id)
     if res:
@@ -36,8 +37,8 @@ async def get_single_project(id:str):
         status_code=404, detail = f"project with id {id} not found"
     )
 
-@router.put("/api/project/{id}", response_model=project)
-async def update_project(id:str, data:projectBody):
+@router.put("/api/project/{id}", response_model=Project)
+async def update_project(id:str, data:ProjectBody):
     res = await db_update_project(id, data)
     if res:
         return res

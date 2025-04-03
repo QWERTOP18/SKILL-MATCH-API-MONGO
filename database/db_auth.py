@@ -23,9 +23,6 @@ def user_serializer(user) ->dict:
         "email": user["email"]
     }
 
-
-
-
 async def db_signup(data: dict) -> dict:
     email = data.get("email")
     password = data.get("password")

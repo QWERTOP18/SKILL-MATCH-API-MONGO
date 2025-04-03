@@ -16,11 +16,19 @@ collection_project = database.project
 
 auth = AuthJwtCsrf()
 
-def project_serializer(project) -> dict:
-    if isinstance(project, dict):
-        return project  # project がすでに辞書型であればそのまま返す
-    return project.dict()  # Pydantic モデルのインスタンスであれば、dict() を使って辞書に変換
-    
+def project_serializer(project: dict) -> dict:
+    """MongoDB のプロジェクトデータをシリアライズ"""
+    return {
+        "id": str(project["_id"]),
+        "title": project.get("title", ""),
+        "description": project.get("description", ""),
+        "color": project.get("color", "#FFFFFF"),
+        "image": project.get("image", ""),
+        "document": project.get("document", ""),
+        "reference": project.get("reference", ""),
+        "start": project.get("start", "").isoformat() if project.get("start") else "",
+        "deadline": project.get("deadline", "").isoformat() if project.get("deadline") else "",
+    }
 
 
 
