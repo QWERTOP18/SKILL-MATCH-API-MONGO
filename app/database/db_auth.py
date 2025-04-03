@@ -5,7 +5,7 @@ from bson import ObjectId
 from fastapi import HTTPException 
 import asyncio
 
-from auth_utils import AuthJwtCsrf
+from app.auth_utils import AuthJwtCsrf
 
 
 MONGO_API_KEY = config("MONGO_API_KEY")
