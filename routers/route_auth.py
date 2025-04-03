@@ -12,10 +12,12 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 auth = AuthJwtCsrf()
 
-@router.post("/api/signup", response_model = UserInfo)
-async def signup(user: UserBase):
+@router.post("/api/signup", response_model=UserInfo)
+async def signup(response: Response, user: UserBase):
     user = jsonable_encoder(user)
     new_user = await db_signup(user)
+    token = await db_login(user)  # ユーザー登録後、ログイン処理を行う
+    response.set_cookie(key="access_token", value=token, httponly=True)
     return new_user
 
 @router.post("/api/login" ,response_model=SuccessMessage)

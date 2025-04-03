@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Request, Response,HTTPException
 from schemas.schema_project import Project, ProjectBody
 from schemas.schema_util import SuccessMessage
-from database.db_project import db_create_project, db_get_projects, db_get_single_project, db_update_project, db_delete_project
+from database.db_project import db_create_project, db_get_projects, db_get_single_project, db_update_project, db_delete_project, db_get_tasks_by_project, db_get_tasks_by_user
 from fastapi.encoders import jsonable_encoder
 from starlette.status import HTTP_201_CREATED,HTTP_400_BAD_REQUEST
 
@@ -55,3 +55,20 @@ async def delete_project(id:str):
     raise HTTPException(
         status_code=404, detail = f"project with id {id} not found"
     )
+
+
+@router.get("/tasks/project/{project_id}")
+async def get_tasks_by_project(project_id: str):
+    """特定の project_id に紐づいたタスク一覧を取得"""
+    tasks = await db_get_tasks_by_project(project_id)
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+    return tasks
+
+@router.get("/tasks/user/{user_id}")
+async def get_tasks_by_user(user_id: str):
+    """特定の user_id に紐づいたタスク一覧を取得"""
+    tasks = await db_get_tasks_by_user(user_id)
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+    return tasks

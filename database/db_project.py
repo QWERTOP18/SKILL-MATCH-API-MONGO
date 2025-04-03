@@ -5,6 +5,7 @@ from bson import ObjectId
 from fastapi import HTTPException 
 
 from auth_utils import AuthJwtCsrf
+from .db_task import task_serializer
 
 
 MONGO_API_KEY = config("MONGO_API_KEY")
@@ -13,6 +14,7 @@ MONGO_API_KEY = config("MONGO_API_KEY")
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
 database = client.API_DB
 collection_project = database.project
+collection_task = database.task
 
 auth = AuthJwtCsrf()
 
@@ -26,8 +28,8 @@ def project_serializer(project: dict) -> dict:
         "image": project.get("image", ""),
         "document": project.get("document", ""),
         "reference": project.get("reference", ""),
-        "start": project.get("start", "").isoformat() if project.get("start") else "",
-        "deadline": project.get("deadline", "").isoformat() if project.get("deadline") else "",
+        "start": project.get("start", "") if project.get("start") else "",
+        "deadline": project.get("deadline", "") if project.get("deadline") else "",
     }
 
 
@@ -68,4 +70,19 @@ async def db_delete_project(id: str) -> bool:
         await collection_project.delete_one({"_id": ObjectId(id)})
         return True
     return False
+
+
+async def db_get_tasks_by_project(project_id: str) -> list:
+    """特定の project_id に紐づいたタスク一覧を取得"""
+    tasks = []
+    async for task in collection_task.find({"project_id": project_id}):
+        tasks.append(task_serializer(task))
+    return tasks
+
+async def db_get_tasks_by_user(user_id: str) -> list:
+    """特定の user_id に紐づいたタスク一覧を取得"""
+    tasks = []
+    async for task in collection_task.find({"user_id": user_id}):
+        tasks.append(task_serializer(task))
+    return tasks
 
