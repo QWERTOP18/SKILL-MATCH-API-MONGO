@@ -34,7 +34,7 @@ async def get_single_task(id:str):
     if res:
         return res
     raise HTTPException(
-        status_code=404, detail = f"Task with id {id} not found"
+        status_code=404, detail = f"Task not found"
     )
 
 @router.put("/api/task/{id}", response_model=Task)
@@ -43,7 +43,7 @@ async def update_task(id:str, data:TaskBody):
     if res:
         return res
     raise HTTPException(
-        status_code=404, detail = f"Task with id {id} not found"
+        status_code=404, detail = f"Task not found"
     )
 
 
@@ -53,5 +53,5 @@ async def delete_task(id:str):
     if res:
         return {"message": "Task deleted successfully"}
     raise HTTPException(
-        status_code=404, detail = f"Task with id {id} not found"
+        status_code=404, detail = f"Task not found"
     )
