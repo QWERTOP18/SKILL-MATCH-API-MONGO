@@ -9,17 +9,17 @@ pytest
 pytest tests/test_project.py
 ```
 
-```sh
+```
 .
-├── app
-│   ├── database
-│   ├── routers
-│   ├── schemas
-│   └── seed
-├── tests
-├── main.py
-├── .env
-└── requirements.txt
+├── app 🏠
+│ ├── database 💾 # データベース関連の処理（接続・モデル・セッション管理など）
+│ ├── routers 🔀 # ルーティング（APIエンドポイントの定義）
+│ ├── schemas 📋 # Pydantic スキーマ（リクエスト・レスポンスのデータ構造）
+│ └── seed 🌱 # 初期データ（シードデータ）の投入スクリプト
+├── tests 🧪
+├── main.py 🚀
+├── .env 🔐
+└── requirements.txt 📜
 ```
 
 ```mermaid
@@ -44,13 +44,8 @@ Status ||--|| Task : ""
         date deadline
     }
 
-
-    User {
-        int USER_ID PK
-        int Project_ID FK
-        string Name
-        string Email
-        string image
+    Skill {
+        int Skill_id PK
         int technical_skill
         int problem_solving_ability
         int communication_skill
@@ -59,6 +54,16 @@ Status ||--|| Task : ""
         int backend_skill
         int infrastructure_skill
         int security_awareness
+    }
+
+
+    User {
+        int USER_ID PK
+        int Project_ID FK
+        string Name
+        string Email
+        string image
+        int Skill_id FK
     }
 
     Task {
@@ -70,20 +75,7 @@ Status ||--|| Task : ""
         string memo
         string color
         stiring status
-        int technical_skill
-        int problem_solving_ability
-        int communication_skill
-        int security_awareness
-        int leadership_and_collaboration
-        int frontend_skill
-        int backend_skill
-        int infrastructure_skill
-    }
-
-    Status {
-        int Status_id PK
-        string Name
-        string Color
+        int Skill_id FK
     }
 
     Badge {
@@ -104,14 +96,13 @@ Status ||--|| Task : ""
     Question {
         int Question_ID PK
         string Text
-        int technical_skill
-        int problem_solving_ability
-        int communication_skill
-        int leadership_and_collaboration
-        int frontend_skill
-        int backend_skill
-        int infrastructure_skill
-        int security_awareness
+        int Skill_id FK
+    }
+
+     Status {
+        int Status_id PK
+        string Name
+        string Color
     }
 ```
 
