@@ -56,11 +56,14 @@ async def db_get_single_task(id: str) -> Union[dict, bool]:
     return task_serializer(task) if task else False
 
 async def db_update_task(id: str, data: dict) -> Union[dict, bool]:
-    """タスクを更新"""
-    result = await collection_task.update_one({"_id": ObjectId(id)}, {"$set": data})
-    if result.modified_count > 0:
-        updated_task = await collection_task.find_one({"_id": ObjectId(id)})
-        return task_serializer(updated_task) if updated_task else False
+    task = await collection_task.find_one({"_id": ObjectId(id)})
+    if task:
+        # dataが辞書でなければ、dictに変換
+        update_data = data if isinstance(data, dict) else data.dict()
+        result = await collection_task.update_one({"_id": ObjectId(id)}, {"$set": update_data})
+        if result.modified_count > 0:
+            updated_task = await collection_task.find_one({"_id": ObjectId(id)})
+            return task_serializer(updated_task)
     return False
 
 async def db_delete_task(id: str) -> bool:
