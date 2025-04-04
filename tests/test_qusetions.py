@@ -11,7 +11,7 @@ def test_create_questions():
         reader = csv.DictReader(csvfile)
         expected = list(reader)
 
-    response = client.get("/questions")
+    response = client.get("api/questions")
     assert response.status_code == 200
 
     actual = response.json()

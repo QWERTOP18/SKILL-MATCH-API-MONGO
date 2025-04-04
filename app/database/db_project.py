@@ -36,8 +36,6 @@ def project_serializer(project: dict) -> dict:
     }
 
 
-
-
 async def db_create_project(data :dict) ->Union[dict, bool]:
     project = await collection_project.insert_one(data)
     new_project = await collection_project.find_one({"_id": project.inserted_id})
@@ -62,7 +60,9 @@ async def db_update_project(id: str, data: dict) -> Union[dict, bool]:
     project = await collection_project.find_one({"_id": ObjectId(id)})
     if project:
         # dataが辞書でなければ、dictに変換
-        update_data = data if isinstance(data, dict) else data.dict()
+        # update_data = data if isinstance(data, dict) else data.dict()
+        update_data = data if isinstance(data, dict) else data.model_dump()
+
         
         # datetime.date, datetime.datetimeを文字列に変換
         if 'start' in update_data and update_data['start'] and isinstance(update_data['start'], (date, datetime)):
