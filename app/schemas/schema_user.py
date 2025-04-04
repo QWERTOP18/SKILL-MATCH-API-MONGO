@@ -2,35 +2,33 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 class UserBase(BaseModel):
-    """Base class with common User attributes"""
     email: str
     password: str
-    
-    
-    
-class UserSkills(BaseModel):
-    """User skills mixin"""
-    technical_skill: int = Field(default=0)
-    problem_solving_ability: int = Field(default=0)
-    communication_skill: int = Field(default=0)
-    leadership_and_collaboration: int = Field(default=0)
-    frontend_skill: int = Field(default=0)
-    backend_skill: int = Field(default=0)
-    infrastructure_skill: int = Field(default=0)
-    security_awareness: int = Field(default=0)
 
-class User(UserBase, UserSkills):
-    """Complete User model with all fields"""
+class UserSkills(BaseModel):
+    id: str
+    name: Optional[str] = "no name"
+    technical_skill: int
+    problem_solving_ability: int
+    communication_skill: int
+    leadership_and_collaboration: int
+    frontend_skill: int
+    backend_skill: int
+    infrastructure_skill: int
+    security_awareness: int
+
+class User(UserSkills):  # UserBase を継承しない
     id: Optional[str] = None
     image: Optional[str] = None
     name: str = Field(default="No Name")
+    #password: Optional[str] = None  # 出力のため任意にする
 
     def to_dict(self):
         """Convert the User object to a dictionary"""
         return {
             "id": self.id,
             "email": self.email,
-            # "password": self.password,
+            # "password": self.password,  # <- レスポンスには含めない場合はコメントアウト
             "image": self.image or "",
             "name": self.name,
             "technical_skill": self.technical_skill or 0,
@@ -43,13 +41,10 @@ class User(UserBase, UserSkills):
             "infrastructure_skill": self.infrastructure_skill or 0,
         }
 
-
-
 class UserInfo(BaseModel):
     """Simplified User information"""
     id: Optional[str] = None
     email: str
-
 
 class UserBody(UserBase):
     """Project creation/update request body"""

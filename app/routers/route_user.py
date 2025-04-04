@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException,Response, Request
 
-from app.schemas.schema_user import UserBase, UserInfo, User, UserBody
+from app.schemas.schema_user import UserBase, User, UserBody
 from app.schemas.schema_util import SuccessMessage
 from app.auth_utils import AuthJwtCsrf
 
@@ -15,13 +15,11 @@ auth = AuthJwtCsrf()
 
     
 @router.get("/api/user/{id}", response_model=User)
-async def get_single_user(id:str):
+async def get_single_user(id: str):
     res = await db_get_single_user(id)
     if res:
         return res
-    raise HTTPException(
-        status_code=404, detail = f"user not found"
-    )
+    raise HTTPException(status_code=404, detail="user not found")
 
 @router.put("/api/user/{id}", response_model=User)
 async def update_user(id:str, data:UserBody):

@@ -49,3 +49,18 @@ class TaskBody(TaskBase, TaskSkills):
     """Task creation/update request body"""
     user_id: Optional[str] = None
     project_id: Optional[str] = None
+
+def auth_serializer(user) -> dict:
+    return {
+        "id": str(user["_id"]),
+        "email": user["email"],
+        "name": user.get("name", "no name"),
+        "technical_skill": user.get("technical_skill", 0),
+        "problem_solving_ability": user.get("problem_solving_ability", 0),
+        "communication_skill": user.get("communication_skill", 0),
+        "security_awareness": user.get("security_awareness", 0),
+        "leadership_and_collaboration": user.get("leadership_and_collaboration", 0),
+        "frontend_skill": user.get("frontend_skill", 0),
+        "backend_skill": user.get("backend_skill", 0),
+        "infrastructure_skill": user.get("infrastructure_skill", 0),
+    }
