@@ -3,6 +3,7 @@ import motor.motor_asyncio
 from typing import Optional, Union
 from bson import ObjectId
 from fastapi import HTTPException 
+from datetime import date, datetime
 
 from app.auth_utils import AuthJwtCsrf
 from .db_task import task_serializer
@@ -60,9 +61,18 @@ async def db_get_single_project(id: str) -> Union[dict, bool]:
 async def db_update_project(id: str, data: dict) -> Union[dict, bool]:
     project = await collection_project.find_one({"_id": ObjectId(id)})
     if project:
-        await collection_project.update_one({"_id": ObjectId(id)}, {"$set": data})
-        updated_project = await collection_project.find_one({"_id": ObjectId(id)})
-        if updated_project.modified_count > 0:
+        # dataが辞書でなければ、dictに変換
+        update_data = data if isinstance(data, dict) else data.dict()
+        
+        # datetime.date, datetime.datetimeを文字列に変換
+        if 'start' in update_data and update_data['start'] and isinstance(update_data['start'], (date, datetime)):
+            update_data['start'] = update_data['start'].isoformat()
+        if 'deadline' in update_data and update_data['deadline'] and isinstance(update_data['deadline'], (date, datetime)):
+            update_data['deadline'] = update_data['deadline'].isoformat()
+        
+        update_result = await collection_project.update_one({"_id": ObjectId(id)}, {"$set": update_data})
+        if update_result.modified_count > 0:
+            updated_project = await collection_project.find_one({"_id": ObjectId(id)})
             return project_serializer(updated_project)
     return False
 
