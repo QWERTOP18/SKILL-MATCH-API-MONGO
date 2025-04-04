@@ -4,9 +4,10 @@ from typing import Optional, Union
 from bson import ObjectId
 from fastapi import HTTPException 
 from datetime import date, datetime
-
+from app.openai_utils import generate_tasks_for_project
 from app.auth_utils import AuthJwtCsrf
-from .db_task import task_serializer
+from .db_task import task_serializer, db_create_task
+
 import asyncio
 
 MONGO_API_KEY = config("MONGO_API_KEY")
@@ -37,11 +38,23 @@ def project_serializer(project: dict) -> dict:
 
 
 async def db_create_project(data :dict) ->Union[dict, bool]:
+    """AIを使ってプロジェクトの要件定義書からtaskを作成する"""
+
     project = await collection_project.insert_one(data)
     new_project = await collection_project.find_one({"_id": project.inserted_id})
     if new_project:
+        print(new_project)
+        tasks = await generate_tasks_for_project(new_project)
+        if tasks:
+            for task in tasks:
+                await db_create_task(task)
         return project_serializer(new_project)
     return False
+
+
+
+
+
 
 async def db_get_projects() -> list:
     projects = []
