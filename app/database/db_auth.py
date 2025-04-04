@@ -49,11 +49,11 @@ async def db_signup(data: dict) -> dict:
     return auth_serializer(new_user)
 
 
-async def db_login(data: dict) ->str:
-  email = data.get("email")
-  password = data.get("password")
-  user = await collection_user.find_one({"email": email})
-  if not user or not auth.verify_pw(password, user["password"]):
-    raise HTTPException(status_code=401, detail="Invalid email or password")  
-  token = auth.encode_jwt(user['email'])
-  return token
+async def db_login(data: dict) -> tuple:
+    email = data.get("email")
+    password = data.get("password")
+    user = await collection_user.find_one({"email": email})
+    if not user or not auth.verify_pw(password, user["password"]):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    token = auth.encode_jwt(user["email"])
+    return token, str(user["_id"])

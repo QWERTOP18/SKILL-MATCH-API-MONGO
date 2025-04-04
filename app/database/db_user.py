@@ -49,12 +49,12 @@ async def db_get_single_user(id: str) -> list:
         raise HTTPException(status_code=404, detail="User not found")
     
 
-async def db_update_user(id :str, data:dict) -> Union[dict, bool]:
-    """MongoDB のプロジェクトデータを更新"""
-    user = await collection_user.find_one({"_id": ObjectId(id)})
-    if user:
-        # ユーザー情報を更新
-        await collection_user.update_one({"_id": ObjectId(id)}, {"$set": data})
-        return user_serializer(user)
-    else:
-        raise HTTPException(status_code=404, detail="User not found")
+async def db_update_user(id: str, update_data: dict) -> dict:
+    # パスワード更新がある場合はハッシュ化する
+    if "password" in update_data and update_data["password"]:
+        update_data["password"] = auth.generate_hashed_pw(update_data["password"])
+    result = await collection_user.update_one({"_id": ObjectId(id)}, {"$set": update_data})
+    if result.modified_count == 1:
+        new_user = await collection_user.find_one({"_id": ObjectId(id)})
+        return user_serializer(new_user)
+    raise HTTPException(status_code=404, detail="user not found")
