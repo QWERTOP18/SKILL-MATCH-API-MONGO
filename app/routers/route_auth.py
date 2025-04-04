@@ -20,11 +20,11 @@ async def signup(response: Response, user: UserBase):
     response.set_cookie(key="access_token", value=token, httponly=True)
     return new_user
 
-@router.post("/api/login" ,response_model=SuccessMessage)
+@router.post("/api/login", response_model=SuccessMessage)
 async def login(response: Response, user: UserBase):
-    user = jsonable_encoder(user)
-    token = await db_login(user)
+    user_data = jsonable_encoder(user)
+    token, user_id = await db_login(user_data)
     response.set_cookie(key="access_token", value=token, httponly=True)
-    return {"message": "Login successful"}
-    
-    
+    return {"message": "Login successful", "user_id": user_id}
+
+

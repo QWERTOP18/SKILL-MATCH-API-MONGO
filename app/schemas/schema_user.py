@@ -49,3 +49,17 @@ class UserInfo(BaseModel):
 class UserBody(UserBase):
     """Project creation/update request body"""
     pass
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = "No Name"
+    email: Optional[str]
+    technical_skill: Optional[int] = 0
+    problem_solving_ability: Optional[int] = 0
+    communication_skill: Optional[int] = 0
+    leadership_and_collaboration: Optional[int] = 0
+    frontend_skill: Optional[int] = 0
+    backend_skill: Optional[int] = 0
+    infrastructure_skill: Optional[int] = 0
+    security_awareness: Optional[int] = 0
+    image: Optional[str] = None
+    password: Optional[str] = None
