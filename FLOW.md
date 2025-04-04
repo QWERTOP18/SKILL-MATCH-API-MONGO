@@ -70,3 +70,29 @@ sequenceDiagram
     Next.js-->>User: 新規プロジェクト画面を表示
 
 ```
+
+## アンケート
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Next.js
+    participant FastAPI
+    participant MongoDB
+
+    %% --- アンケート開始 ---
+    User->>Next.js: アンケート開始s
+    Next.js->>+FastAPI: POST /questions
+    FastAPI->>MongoDB: 質問リストを取得
+    MongoDB-->>FastAPI: 質問リストを返す
+    FastAPI-->>-Next.js: 質問を返す
+    Next.js-->>User: 質問を表示
+
+    User->>Next.js: 回答を入力
+    Next.js->>+FastAPI: PUT /users/skills 回答結果を送信
+    Note over FastAPI: 分析する
+    FastAPI->>MongoDB: user情報を更新
+    MongoDB-->>FastAPI: 保存完了
+    FastAPI-->>-Next.js:　
+    Next.js-->>User: 分析結果表示
+```
