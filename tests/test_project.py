@@ -115,3 +115,55 @@ def test_update_project():
     # assert response.json()["image"] == "new_image_url"
     # assert response.json()["document"] == "new_document_url"
     # assert response.json()["reference"] == "new_reference_url"
+def test_get_single_project():
+    # プロジェクトを作成
+    create_response = client.post(
+        "/api/project",
+        json={
+            "title": "Single Project",
+            "description": "For single fetch test",
+            "color": "#123456",
+            "image": "image_url",
+            "document": "doc_url",
+            "reference": "ref_url",
+            "start": "2025-04-03",
+            "deadline": "2025-04-03"
+        }
+    )
+    assert create_response.status_code == 201
+    project = create_response.json()
+    project_id = project["id"]
+
+    # GETで単一プロジェクト取得
+    get_response = client.get(f"/api/project/{project_id}")
+    assert get_response.status_code == 200
+    assert get_response.json() == project
+
+
+def test_delete_project():
+    # プロジェクトを作成
+    create_response = client.post(
+        "/api/project",
+        json={
+            "title": "Project to delete",
+            "description": "For delete test",
+            "color": "#654321",
+            "image": "image_url",
+            "document": "doc_url",
+            "reference": "ref_url",
+            "start": "2025-04-03",
+            "deadline": "2025-04-03"
+        }
+    )
+    assert create_response.status_code == 201
+    project_id = create_response.json()["id"]
+
+    # 削除リクエスト
+    delete_response = client.delete(f"/api/project/{project_id}")
+    assert delete_response.status_code == 200
+    assert "message" in delete_response.json()
+    assert "deleted" in delete_response.json()["message"].lower()
+
+    # 削除されたことを確認（再取得すると404 or validation error）
+    get_response = client.get(f"/api/project/{project_id}")
+    assert get_response.status_code in [404, 422]
