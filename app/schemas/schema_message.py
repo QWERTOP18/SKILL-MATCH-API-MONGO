@@ -27,5 +27,5 @@ class MessageCreate(BaseModelWithObjectId):
 
 # 更新用スキーマ（部分更新）
 class MessageUpdate(BaseModelWithObjectId):
-    context: str | None = None
-    data: datetime  | None = None
+    context: Optional[str] = None
+    data: Optional[datetime] = None
