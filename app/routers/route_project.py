@@ -57,7 +57,7 @@ async def delete_project(id:str):
     )
 
 
-@router.get("/tasks/project/{project_id}")
+@router.get("/api/tasks/project/{project_id}")
 async def get_tasks_by_project(project_id: str):
     """特定の project_id に紐づいたタスク一覧を取得"""
     tasks = await db_get_tasks_by_project(project_id)
@@ -65,7 +65,7 @@ async def get_tasks_by_project(project_id: str):
         raise HTTPException(status_code=404, detail="Tasks not found")
     return tasks
 
-@router.get("/tasks/user/{user_id}")
+@router.get("/api/tasks/user/{user_id}")
 async def get_tasks_by_user(user_id: str):
     """特定の user_id に紐づいたタスク一覧を取得"""
     tasks = await db_get_tasks_by_user(user_id)
