@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import route_task, route_auth, route_project, route_user, route_questions, route_project_user
+from app.routers import route_task, route_auth, route_project, route_user, route_questions, route_project_user, route_message
 from app.schemas.schema_util import SuccessMessage
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -11,6 +11,7 @@ app.include_router(route_user.router,tags=["user"])
 app.include_router(route_project.router,tags=["project"])
 app.include_router(route_questions.router,tags=["questions"])
 app.include_router(route_project_user.router,tags=["project_user"])
+app.include_router(route_message.router,tags=["message"])
 
 
 

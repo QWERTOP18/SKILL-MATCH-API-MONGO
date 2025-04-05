@@ -32,6 +32,8 @@ User ||--o{ User_Badge : ""
 Badge ||--|| User_Badge : ""
 Project ||--o{ Task : ""
 Status ||--|| Task : ""
+Project ||--o{ Message : ""
+User ||--o{ Message : ""
 
 
     Project {
@@ -105,6 +107,14 @@ Status ||--|| Task : ""
         int Status_id PK
         string Name
         string Color
+    }
+
+    Message {
+        int Message_id PK
+        int User_id FK
+        int Project_id FK
+        string context
+        date date
     }
 ```
 
