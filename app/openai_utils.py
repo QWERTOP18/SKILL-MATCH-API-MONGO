@@ -14,7 +14,7 @@ def is_pytest_running():
     return "pytest" in sys.modules
 
 
-async def generate_tasks_for_project(project: dict, num_tasks: int = 1):
+async def generate_tasks_for_project(project: dict, num_tasks: int = 6):
     if is_pytest_running():
         # テスト実行中の場合はダミーデータを返す
         print("テスト実行中")
