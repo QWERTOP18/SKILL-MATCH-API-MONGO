@@ -24,7 +24,7 @@ async def get_single_user(id: str):
 
 @router.put("/api/user/{id}", response_model=User)
 async def update_user(id: str, data: UserUpdate):
-    update_data = jsonable_encoder(data)
+    update_data = jsonable_encoder(data, exclude_none=True)
     res = await db_update_user(id, update_data)
     if res:
         return res
