@@ -51,15 +51,15 @@ class UserBody(UserBase):
     pass
 
 class UserUpdate(BaseModel):
-    name: Optional[str] = "No Name"
+    name: Optional[str] = None
     email: Optional[str] = None
-    technical_skill: Optional[int] = 0
-    problem_solving_ability: Optional[int] = 0
-    communication_skill: Optional[int] = 0
-    leadership_and_collaboration: Optional[int] = 0
-    frontend_skill: Optional[int] = 0
-    backend_skill: Optional[int] = 0
-    infrastructure_skill: Optional[int] = 0
-    security_awareness: Optional[int] = 0
+    technical_skill: Optional[int] = None
+    problem_solving_ability: Optional[int] = None
+    communication_skill: Optional[int] = None
+    leadership_and_collaboration: Optional[int] = None
+    frontend_skill: Optional[int] = None
+    backend_skill: Optional[int] = None
+    infrastructure_skill: Optional[int] = None
+    security_awareness: Optional[int] = None
     image: Optional[str] = None
     password: Optional[str] = None
