@@ -22,6 +22,8 @@ pytest tests/test_project.py
 └── requirements.txt 📜
 ```
 
+[Flow](./FLOW.md)
+
 ```mermaid
 erDiagram
 Project }o--o{ User : ""
