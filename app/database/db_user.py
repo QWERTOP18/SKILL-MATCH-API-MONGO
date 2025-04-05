@@ -54,7 +54,7 @@ async def db_update_user(id: str, update_data: dict) -> dict:
     if "password" in update_data and update_data["password"]:
         update_data["password"] = auth.generate_hashed_pw(update_data["password"])
     result = await collection_user.update_one({"_id": ObjectId(id)}, {"$set": update_data})
-    if result.modified_count == 1:
+    if result.modified_count > 0:
         new_user = await collection_user.find_one({"_id": ObjectId(id)})
         return user_serializer(new_user)
     raise HTTPException(status_code=404, detail="user not found")
