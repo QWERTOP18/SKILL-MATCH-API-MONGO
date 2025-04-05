@@ -59,7 +59,7 @@ async def db_update_task(id: str, data: dict) -> Union[dict, bool]:
     task = await collection_task.find_one({"_id": ObjectId(id)})
     if task:
         # dataが辞書でなければ、dictに変換
-        update_data = data if isinstance(data, dict) else data.dict()
+        update_data = data if isinstance(data, dict) else data.model_dump()
         result = await collection_task.update_one({"_id": ObjectId(id)}, {"$set": update_data})
         if result.modified_count > 0:
             updated_task = await collection_task.find_one({"_id": ObjectId(id)})
