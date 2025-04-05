@@ -58,3 +58,13 @@ async def db_update_user(id: str, update_data: dict) -> dict:
         new_user = await collection_user.find_one({"_id": ObjectId(id)})
         return user_serializer(new_user)
     raise HTTPException(status_code=404, detail="user not found")
+
+async def db_get_users_by_name(name : str) -> list:
+    """MongoDBのcollection_userからnameでユーザーを取得"""
+    users = []
+    async for user in collection_user.find({"name": {"$regex": name, "$options": "i"}}):
+        users.append({
+            "usser_id": str(user["_id"]),
+            "name": user["name"],
+        })
+    return users
