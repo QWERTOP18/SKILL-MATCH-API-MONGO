@@ -52,7 +52,7 @@ class UserBody(UserBase):
 
 class UserUpdate(BaseModel):
     name: Optional[str] = "No Name"
-    email: Optional[str]
+    email: Optional[str] = None
     technical_skill: Optional[int] = 0
     problem_solving_ability: Optional[int] = 0
     communication_skill: Optional[int] = 0
