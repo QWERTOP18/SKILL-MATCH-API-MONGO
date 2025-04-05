@@ -29,3 +29,24 @@ class MessageCreate(BaseModelWithObjectId):
 class MessageUpdate(BaseModelWithObjectId):
     context: Optional[str] = None
     data: Optional[datetime] = None
+
+
+# レスポンス用スキーマ
+class MessageResponse(BaseModelWithObjectId):
+    id: PyObjectId = Field(alias="_id")
+    user_id: str
+    user_name: str
+    project_id: str
+    context: str
+    data: datetime 
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "_id": "507f1f77bcf86cd799439011",
+                "user_id": "507f1f77bcf86cd799439012",
+                "project_id": "507f1f77bcf86cd799439013",
+                "context": "This is a sample message.",
+                "data": datetime.now()
+            }
+        }

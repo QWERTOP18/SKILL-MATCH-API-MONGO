@@ -81,7 +81,7 @@ sequenceDiagram
     participant MongoDB
 
     %% --- アンケート開始 ---
-    User->>Next.js: アンケート開始s
+    User->>Next.js: アンケート開始
     Next.js->>+FastAPI: POST /questions
     FastAPI->>MongoDB: 質問リストを取得
     MongoDB-->>FastAPI: 質問リストを返す
@@ -89,7 +89,7 @@ sequenceDiagram
     Next.js-->>User: 質問を表示
 
     User->>Next.js: 回答を入力
-    Next.js->>+FastAPI: PUT /users/skills 回答結果を送信
+    Next.js->>+FastAPI: PUT /users/ 回答結果を送信
     Note over FastAPI: 分析する
     FastAPI->>MongoDB: user情報を更新
     MongoDB-->>FastAPI: 保存完了

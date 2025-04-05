@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request, Response
 from app.schemas.schema_util import SuccessMessage
-from app.schemas.schema_message import MessageCreate, Message, MessageUpdate
+from app.schemas.schema_message import MessageCreate, Message, MessageUpdate, MessageResponse
 from typing import List
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from fastapi.encoders import jsonable_encoder
@@ -34,7 +34,7 @@ async def create_message_endpoint(
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=str(e))
 
 # プロジェクト単位でメッセージを取得
-@router.get("/api/messages/project/{project_id}", response_model=List[Message])
+@router.get("/api/messages/project/{project_id}", response_model=List[MessageResponse])
 async def get_messages_by_project_endpoint(
     project_id: str, 
     skip: int = 0, 
@@ -47,7 +47,7 @@ async def get_messages_by_project_endpoint(
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=str(e))
 
 # ユーザー単位でメッセージを取得
-@router.get("/api/messages/user/{user_id}", response_model=List[Message])
+@router.get("/api/messages/user/{user_id}", response_model=List[MessageResponse])
 async def get_messages_by_user_endpoint(
     user_id: str, 
     skip: int = 0, 
@@ -60,7 +60,7 @@ async def get_messages_by_user_endpoint(
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=str(e))
 
 # メッセージIDで特定のメッセージを取得
-@router.get("/api/messages/{message_id}", response_model=Message)
+@router.get("/api/messages/{message_id}", response_model=MessageResponse)
 async def get_message_by_id_endpoint(message_id: str):
     try:
         message = await get_message_by_id(message_id)
