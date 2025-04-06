@@ -14,7 +14,7 @@ def is_pytest_running():
     return "pytest" in sys.modules
 
 
-async def generate_tasks_for_project(project: dict, num_tasks: int = 5):
+async def generate_tasks_for_project(project: dict, num_tasks: int = 1):
     if is_pytest_running():
         # テスト実行中の場合はダミーデータを返す
         print("テスト実行中")
@@ -45,7 +45,7 @@ async def generate_tasks_for_project(project: dict, num_tasks: int = 5):
         # GPTにJSON形式でタスクデータを出力させる
         prompt = (
             f"あなたはプロジェクトマネージャーです。\n"
-            f"プロジェクト「{project_title}」の一部として適切なタスクを5つ作成してください。\n"
+            f"プロジェクト「{project_title}」の一部として適切なタスクを1つ作成してください。\n"
             f"プロジェクトの説明: {project_description}\n"
             "以下のJSON形式で出力してください。\n"
             "```json\n"
@@ -68,7 +68,7 @@ async def generate_tasks_for_project(project: dict, num_tasks: int = 5):
             model="gpt-4",
             messages=[{"role": "system", "content": "Your system message here."}, {"role": "user", "content": prompt}],
             temperature=0.7,
-            max_tokens=1000
+            max_tokens=500
         )
         print(response)
         print(response.usage)
